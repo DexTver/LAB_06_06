@@ -27,11 +27,17 @@ void print_line(int x) {
 }
 
 void pprint(note *block) {
-    int max_name = 0, x;
+    int max_name = 8, x;
     for (int i = 0; i < CNT; ++i) {
         x = strlen(block[i].Name);
         if (x > max_name) max_name = x;
     }
+
+    print_line(max_name);
+
+    printf("| %s ", "Fullname");
+    for (int i = 0; i < max_name - 8; printf(" "), ++i);
+    printf("| %s | %s |\n", "Number ", "Birthday  ");
 
     print_line(max_name);
 
@@ -62,6 +68,10 @@ int main() {
         scanf("%s", filename);
         f = fopen(filename, "r");
     }
+
+    printf("If you want to display table, enter \'!print\'.\n");
+    printf("If you want to search for a user, enter the full name.\n");
+    printf("If you want to close the program, enter \'!end\'.\n");
 
     for (int tt = 0; tt < CNT; ++tt) {
         fgets(text[tt], sizeof(text[tt]), f);
