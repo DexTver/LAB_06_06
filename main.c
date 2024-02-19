@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define CNT 7
+
 struct NOTE2 {
     char *Name;
     char *TELE;
@@ -14,37 +16,41 @@ int compare(const char *num1, const char *num2) {
 }
 
 void print_line(int x) {
-    for (int i = 0; i < x; printf("-"), ++i);
     printf("+");
-    for (int i = 0; i < 7; printf("-"), ++i);
+    for (int i = 0; i < x + 2; printf("-"), ++i);
     printf("+");
-    for (int i = 0; i < 10; printf("-"), ++i);
+    for (int i = 0; i < 9; printf("-"), ++i);
+    printf("+");
+    for (int i = 0; i < 12; printf("-"), ++i);
+    printf("+");
     printf("\n");
 }
 
 void pprint(note *block) {
     int max_name = 0, x;
-    for (int i = 0; i < 7; ++i) {
+    for (int i = 0; i < CNT; ++i) {
         x = strlen(block[i].Name);
         if (x > max_name) max_name = x;
     }
 
     print_line(max_name);
 
-    for (int j = 0; j < 7; ++j) {
-        printf("%s", block[j].Name);
+    for (int j = 0; j < CNT; ++j) {
+        printf("| %s ", block[j].Name);
         for (int i = 0; i < max_name - strlen(block[j].Name); printf(" "), ++i);
-        printf("|%s|%s\n", block[j].TELE, block[j].DATE);
+        printf("| %s | %s |\n", block[j].TELE, block[j].DATE);
     }
+
+    print_line(max_name);
 }
 
 int main() {
     char filename[128];
     FILE *f;
-    char text[7][1024];
+    char text[CNT][1024];
     int cnt;
     note user;
-    note BLOCK2[7];
+    note BLOCK2[CNT];
     char *token;
     char *str;
 
@@ -57,7 +63,7 @@ int main() {
         f = fopen(filename, "r");
     }
 
-    for (int tt = 0; tt < 7; ++tt) {
+    for (int tt = 0; tt < CNT; ++tt) {
         fgets(text[tt], sizeof(text[tt]), f);
         token = strtok(text[tt], ";");
         cnt = 0;
@@ -72,8 +78,8 @@ int main() {
         BLOCK2[tt] = user;
     }
 
-    for (int i = 0; i < 7; ++i) {
-        for (int j = 0; j < 7; ++j) {
+    for (int i = 0; i < CNT; ++i) {
+        for (int j = 0; j < CNT; ++j) {
             if (!compare(BLOCK2[i].TELE, BLOCK2[j].TELE)) {
                 user = BLOCK2[i];
                 BLOCK2[i] = BLOCK2[j];
@@ -91,11 +97,11 @@ int main() {
         } else if (strcasecmp(str, "!end") == 0) {
             printf("Goodbye!");
         } else {
-            for (int i = 0; i < 8; ++i) {
-                if (i == 7) printf("Not found!\n");
+            for (int i = 0; i < CNT + 1; ++i) {
+                if (i == CNT) printf("Not found!\n");
                 if (strcasecmp(str, BLOCK2[i].Name) == 0) {
                     printf("%s\t%s\t%s\n", BLOCK2[i].Name, BLOCK2[i].TELE, BLOCK2[i].DATE);
-                    i = 8;
+                    i = CNT + 1;
                 }
             }
         }
