@@ -109,7 +109,7 @@ int main() {
         } else {
             for (int i = 0; i < CNT + 1; ++i) {
                 if (i == CNT) printf("Not found!\n");
-                if (strcasecmp(str, BLOCK2[i].Name) == 0) {
+                else if (strcasecmp(str, BLOCK2[i].Name) == 0) {
                     printf("%s\t%s\t%s\n", BLOCK2[i].Name, BLOCK2[i].TELE, BLOCK2[i].DATE);
                     i = CNT + 1;
                 }
