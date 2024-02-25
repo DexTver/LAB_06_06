@@ -100,7 +100,7 @@ int main() {
 
     getchar();
     do {
-        fgets(str, 1024, stdin);
+        fgets(str, 1024 * sizeof(char), stdin);
         str[strlen(str) - 1] = '\0';
         if (strcasecmp(str, "!print") == 0) {
             pprint(BLOCK2);
@@ -108,8 +108,9 @@ int main() {
             printf("Goodbye!");
         } else {
             for (int i = 0; i < CNT + 1; ++i) {
-                if (i == CNT) printf("Not found!\n");
-                else if (strcasecmp(str, BLOCK2[i].Name) == 0) {
+                if (i >= CNT) {
+                    printf("Not found!\n");
+                } else if (strcasecmp(str, BLOCK2[i].Name) == 0) {
                     printf("%s\t%s\t%s\n", BLOCK2[i].Name, BLOCK2[i].TELE, BLOCK2[i].DATE);
                     i = CNT + 1;
                 }
